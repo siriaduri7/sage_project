@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 )
 
 type person struct {
@@ -25,5 +26,26 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-	fmt.Println(string(bs))
+	//  fmt.Println(string(bs)) // till marshal you need to include this line also
+
+	//UNMARSHAL FROM JSON TO GO
+	fmt.Println("PRINT JSON", string(bs))
+
+	xp2 := []person{}
+	err = json.Unmarshal(bs, &xp2)
+	if err != nil {
+		log.Panic(err)
+	}
+	fmt.Println("back into a Go data structure", xp2)
+	http.HandleFunc("/encode", foo)
+	http.HandleFunc("/encode", bar)
+	http.ListenAndServe(":8080", nil)
+}
+
+func foo(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func bar(w http.ResponseWriter, r *http.Request) {
+
 }
