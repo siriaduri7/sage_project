@@ -47,7 +47,7 @@ func foo(w http.ResponseWriter, r *http.Request) {
 	p1 := person{
 		First: "jerry",
 	}
-	err := json.NewEncoder(w).Encode(p1)
+	err := json.NewEncoder(w).Encode(p1) // NewEncoder returns a new encoder that writes to w.Encode writes the JSON encoding of v to the stream, followed by a newline character.
 	if err != nil {
 		log.Println("encoded bad data", err)
 	}
@@ -55,5 +55,11 @@ func foo(w http.ResponseWriter, r *http.Request) {
 }
 
 func bar(w http.ResponseWriter, r *http.Request) {
+	var p1 person                              // we need to have person to intending to receive
+	err := json.NewDecoder(r.Body).Decode(&p1) // newdecoder that reads the request body as json and decode that intop1
+	if err != nil {
+		log.Println("decoded bad data", err) // log is the timestamps at what time it happends
+	}
+	log.Println("person:", p1)
 
 }
